@@ -1,0 +1,47 @@
+add_newline = true
+
+format = '''
+[┌───────────────────>](bold green)
+[│](bold green)$directory$package$c$java$python
+[│](bold green)$os$battery$memory_usage
+[└─> ](bold green)
+'''
+
+palette = 'colours'
+
+
+[palettes.colours]
+orange = '#ff8500'
+purple = "#ff00ff"
+
+[package]
+disabled = false
+symbol = "󰏓 "
+
+[python]
+symbol = '󰌠 '
+
+[directory]
+style = 'bold orange'
+
+[os]
+disabled = false
+style = "bold cyan"
+format = "[$symbol ]($style)"
+
+[os.symbols]
+Arch = "󰣇 "
+
+[battery]
+format = '[$symbol$percentage]($style) '
+
+[[battery.display]]
+style = "bold red"
+threshold = 100
+
+[memory_usage]
+symbol = '󰍛 '
+disabled = false
+threshold = -1
+style = "bold purple"
+format = "[$symbol$ram]($style)"
