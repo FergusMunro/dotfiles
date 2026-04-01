@@ -1,0 +1,170 @@
+(defpoll TEMPERATURE :interval "5m" 'bash ../scripts/temperature')
+(defpoll WEATHER :interval "5m" 'bash ../scripts/weather_icon')
+(defpoll MOON :interval "15m" 'bash ../scripts/moon_icon')
+(defpoll MOON_PHASE :interval "15m" 'bash ../scripts/moon_phase')
+(defpoll TIME :interval "2s" `date +"%R"`)
+(deflisten BATTERY `bash ../scripts/battery --perc`)
+(defpoll CPU :interval "10s" "bash ../scripts/cpu")
+(defpoll RAM :interval "1m" "../scripts/memory")
+(defpoll RAM_PERCENT :interval "1m" "../scripts/mem_percent")
+(defpoll DAY :interval "15m" "date '+%d'")
+(defpoll YEAR :interval "20h" "date '+%Y'")
+
+
+(deflisten BLIGHT `bash ../scripts/backlight --get`)
+(deflisten VOLUME `bash ../scripts/audio --get-vol`)
+(deflisten VOLUMEICON `bash ../scripts/audio --get-volicon`)
+(deflisten MIC `bash ../scripts/audio --get-mic`)
+(deflisten MICICON `bash ../scripts/audio --get-micicon`)
+(deflisten NET `bash ../scripts/network`)
+
+(defwidget cal []
+	(box :class "genwin" :orientation "v" :width 400 :height 400
+	    (calendar :class "cal" :day DAY :year YEAR)))
+
+(defwidget sys_sliders []
+  (box :class "genwin" :vexpand "false" :hexpand "false" :width 400 :height 200
+	  (box :class "slidersbox" :orientation "v" :spacing 10 :halign "center" :valign "center" :space-evenly "false" :vexpand "false" :hexpand "false"
+	    (box :class "volume_bar" :orientation "h" :spacing 20 :space-evenly "false" :vexpand "false" :hexpand "false"
+		    (button :width 30 :onclick "bash ../scripts/audio --toggle-vol" 
+          (label :class "iconvolume" :text VOLUMEICON))
+		  (scale :min 0 :max 100 :value VOLUME :active "true" :onchange "bash ../scripts/audio --set-vol {}"))
+    (box :class "mic_bar" :orientation "h" :spacing 20 :space-evenly "false" :vexpand "false" :hexpand "false"
+		  (button :width 30 :onclick "bash ../scripts/audio --toggle-mic" 
+        (label :class "iconmic" :text MICICON))
+		  (scale :min 0 :max 100 :value MIC :active "true" :onchange "bash ../scripts/audio --set-mic {}"))
+    (box :class "bright_bar" :orientation "h" :spacing 20 :space-evenly "false" :vexpand "false" :hexpand "false"
+		  (button :width 30 :onclick "" 
+		    (label :width 30 :class "iconbright" :text "󰃠"))
+      (scale :min 0 :max 255 :value BLIGHT :active "true" :onchange "bash ../scripts/backlight --set {}")))))
+
+(defwidget launcher[] 
+
+  (box :class "genwin" :vexpand "false" :hexpand "false" :width 400 :height 200 :orientation "v" :space-evenly true :spacing 32
+    (box :class "background" :orientation "h" :vexpand "false" :hexpand "false" :space-evenly true :valign "center" :width 200 :style "margin-top:20px;"
+      (box :class "firefox" :width 96 :height 64 :halign "start" :tooltip "Firefox" (button :onclick "bash ../scripts/firefox"))
+      (box :class "obsidian" :width 96 :height 64 :halign "end" :tooltip "Obsidian" (button :onclick "bash ../scripts/obsidian"))
+      (box :class "steam" :width 64 :height 64 :halign "center" :tooltip "Steam"(button :onclick "bash ../scripts/steam"))
+
+    )
+    (box :class "background" :orientation "h" :vexpand "false" :hexpand "false" :space-evenly true :valign "center":width 200 :style "margin-bottom:20;"
+      (box :class "terminal" :width 96 :height 64 :halign "start" :tooltip "Terminal" (button :onclick "bash ../scripts/kitty"))
+      (box :class "anki" :width 96 :height 64 :halign "end" :tooltip "Anki"(button :onclick "bash ../scripts/anki"))
+      (box :class "dolphin" :width 64 :height 64 :halign "center" :tooltip "Dolphin Emulator" (button :onclick "bash ../scripts/dolphin"))
+    )
+  )
+)
+
+(defwidget weather[] 
+  (box :class "genwin" :vexpand "false" :hexpand "false" :width 200 :height 200 :orientation "v" :space-evenly false
+    (label :text TEMPERATURE :class "bigtext" :style "margin-top:0px; margin-left:30px;")
+    (label :text WEATHER :class "bigtext" :style "margin-top:0px;") 
+  ) 
+)
+
+(defwidget moon[] 
+  (box :class "genwin" :vexpand "false" :hexpand "false" :width 200 :height 200 :orientation "v" :space-evenly false
+    (label :text MOON_PHASE :class "mediumtext" :limit-width 20 :style "margin-top:30;")
+    (label :text MOON :class "bigtext" :limit-width 1 :style "margin-top:25;")
+  ) 
+)
+
+(defwidget time[] 
+  (box :class "genwin" :vexpand "false" :hexpand "false" :width 200 :height 200 :orientation "v"
+    (label :text TIME :class "quitebigtext")
+  ) 
+)
+
+(defwidget battery[] 
+  (box :class "genwin" :vexpand "false" :hexpand "false" :width 200 :height 200 :orientation "v"
+    :space-evenly false
+    (box :height 20)
+    (box :width 150 :height 150 :vexpand "false" :hexpand "false" :orientation "v"
+      (circular-progress :value BATTERY :thickness 10 :clockwise true :start-at 75
+        :hexpand false :vexpand false :width 50 :height 50 :halign "valign" :class "battery"
+        (box :orientation "v" :space-evenly false
+          (label :text "Battery:" :style "margin-top:30px;")
+          (label :text "${BATTERY}%" :class "quitebigtext")
+        )
+      ) 
+    )
+  )
+)
+
+(defwidget sysinfo[]
+
+  (box :class "background" :halign "center" :space-evenly false :spacing 10
+    (box :valign "center" :class "collumn" :orientation "v" :space-evenly false :spacing 5
+      (weather)
+      (battery)
+    )
+    (box :valign "center" :class "collumn" :orientation "v" :space-evenly false :spacing 5
+      (moon)
+      (ram)
+    )
+  )
+)
+
+(defwidget ram[] 
+  (box :class "genwin" :vexpand "false" :hexpand "false" :width 200 :height 200 :orientation "v"
+    :space-evenly false
+    (box :height 20)
+    (box :width 150 :height 150 :vexpand "false" :hexpand "false" :orientation "v"
+      (circular-progress :value RAM_PERCENT :thickness 10 :clockwise true :start-at 75
+        :hexpand false :vexpand false :width 50 :height 50 :halign "valign" :class "ram"
+        (box :orientation "v" :space-evenly false
+          (label :text "Memory:" :style "margin-top:40px;")
+          (label :text "${RAM}" :style "font-size:35px;")
+        )
+      ) 
+    )
+  )
+)
+
+(defwidget cpu[] 
+  (box :class "genwin" :vexpand "false" :hexpand "false" :width 200 :height 200 :orientation "v"
+    :space-evenly false
+    (box :height 20)
+    (box :width 150 :height 150 :vexpand "false" :hexpand "false" :orientation "v"
+      (circular-progress :value CPU :thickness 10 :clockwise true :start-at 75
+        :hexpand false :vexpand false :width 50 :height 50 :halign "valign" :class "cpu"
+        (box :orientation "v" :space-evenly false
+          (label :text "CPU:" :style "margin-top:40px;")
+          (label :text "${CPU}%" :style "font-size:35px")
+        )
+      ) 
+    )
+  )
+)
+
+(defwidget sys_stats[]
+
+  (box :class "background" :halign "center" :space-evenly false :spacing 10
+    (box :valign "center" :class "collumn" :orientation "v" :space-evenly false :spacing 5
+      (time)
+      (cpu)
+    )
+    (box :valign "center" :class "collumn" :orientation "v" :space-evenly false :spacing 5
+    )
+  )
+)
+
+(defwindow dashboard
+	:monitor 0
+	:windowtype "dock"
+  :geometry (geometry :width "80%" :height "80%":anchor "center")
+  :exclusive false
+  :visible true
+  :stacking "bg"
+ 
+
+
+  (box :class "row" :halign "center" :valign "center" :space-evenly false :spacing 10 :orientation "h"
+    (box :class "collumn" :halign "start" :valign "center" :space-evenly false :spacing 5 :orientation "v"
+      (launcher)
+      (sys_sliders)
+    )
+    (sysinfo)  
+    (sys_stats)
+  )
+)

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+CFG="$HOME/.config/eww/dashboard/"
+
+eww --config "$CFG" open dashboard --screen 0

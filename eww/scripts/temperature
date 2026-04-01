@@ -1,0 +1,11 @@
+#!/bin/bash
+
+weather=$(curl -m 10 -s wttr.in/Bath?format=1)
+
+if [ $? -ne 0 ]; then
+    weather='null 15°'  # Setting default value to New Moon
+fi
+
+temp=$(echo "$weather" | awk '{print $2}' | tr -d '+C') 
+
+echo $temp

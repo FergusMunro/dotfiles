@@ -1,0 +1,149 @@
+*{
+  all:unset;
+  font-family: 'JetBrains Mono Nerd Font'; 
+  color: #dddddd;
+}
+
+.dashboard {
+  background-color: transparent;
+}
+
+.background {
+  background-color: transparent;
+}
+
+.collumn {
+  background-color: transparent;
+}
+
+.row {
+  background-color: transparent;
+}
+
+.genwin {
+  background-color: black;
+  border-radius:35px;
+}
+
+.battery {
+  color: #00ff00;
+}
+
+.ram {
+  color: #ff9900;
+}
+
+.cpu {
+  color: #ff0000;
+}
+
+.slidersbox {
+  padding: 4px;
+}
+
+.iconbright {
+	font-size : 24px;
+	font-weight : normal;
+  /*color: #eed49f;*/
+}
+
+.bright_bar scale trough {
+	all: unset;
+	background-color: #303446;
+	border-radius: 16px;
+	min-height: 20px;
+	min-width: 240px;
+  margin-right: 10px;
+}
+
+.bright_bar scale trough highlight {
+	all: unset;
+	border-radius: 16px;
+	/*background-color: #eed49f;*/
+  background-color: #7c94bf;
+}
+
+.iconvolume {
+	font-size : 28px;
+	font-weight : normal;
+  margin-left: 4px;
+}
+
+.volume_bar scale trough {
+	all: unset;
+	background-color: #303446;
+	border-radius: 16px;
+	min-height: 20px;
+	min-width: 240px;
+  margin-right: 10px;
+}
+
+.volume_bar scale trough highlight {
+	all: unset;
+	border-radius: 16px;
+	background-color: #7c94bf;
+}
+
+.iconmic {
+	font-size : 28px;
+	font-weight : normal;
+  margin-left: 4px;
+}
+
+.mic_bar scale trough {
+	all: unset;
+	background-color: #303446;
+	border-radius: 16px;
+	min-height: 20px;
+	min-width: 240px;
+  margin-right: 10px;
+}
+
+.mic_bar scale trough highlight {
+	all: unset;
+	border-radius: 16px;
+	background-color: #7c94bf;
+}
+
+
+
+.bigtext {
+  font-size:70px;
+}
+
+.quitebigtext {
+  font-size:50px;
+}
+
+.mediumtext {
+  font-size:20px;
+}
+
+.firefox {
+  background-image: url("img/firefox.png");
+  margin-left:32px;
+}
+
+.steam {
+  background-image: url("img/steam.png");
+}
+
+.obsidian {
+  background-image: url("img/obsidian.png");
+  margin-right:32px;
+}
+
+.terminal {
+  background-image: url("img/terminal.png");
+  margin-left:32px;
+}
+
+.dolphin {
+  background-image: url("img/dolphin.png");
+}
+
+.anki {
+  background-image: url("img/anki.png");
+  margin-right:32px;
+}
+

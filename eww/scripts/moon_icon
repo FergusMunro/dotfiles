@@ -1,0 +1,11 @@
+#!/bin/bash
+
+moon=$(curl -m 10 -s wttr.in/London?format=%m)
+
+if [ $? -ne 0 ]; then
+    moon="🌑"  # Setting default value to New Moon
+fi
+
+moon=$(echo $moon | awk "{print $1}")
+
+echo "$moon"

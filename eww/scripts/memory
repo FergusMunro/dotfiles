@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Get total memory available
+mem=$(free -h | awk 'NR==2 {print $3}')
+
+echo $mem

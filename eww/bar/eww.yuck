@@ -1,0 +1,31 @@
+(defpoll time :interval "20s" `date +" %a %d %b %R"`)
+(defpoll quote :interval "1m" `fortune -n 20 -s`)
+(deflisten workspaces :initial "(box (label :text \"        \" ))"
+	`python ../scripts/workspaces.py`)
+
+(deflisten volume `bash ../scripts/audio --get-volicon`)
+(deflisten battery `bash ../scripts/battery --icon`)
+(defpoll network :interval "10s" 'bash ../scripts/network --icon')
+
+(defwindow bar
+	:monitor 0
+	:windowtype "dock"
+	:geometry (geometry :width "100%" :anchor "top center")
+	:exclusive true	
+	(box :class "main-container" :space-evenly "true"
+		(box :halign "start"
+			(label :text "${time}")
+		)
+		
+		(box :class "workspaces" :halign "center" :vexpand "true"
+			(label :text "${quote}")
+		)	
+
+		(box :halign "end"
+			(button :class "systray"
+					:onclick "bash ../scripts/launch_menu" 
+					:onmiddleclick "bash ../scripts/audio --toggle-vol"
+        
+				(label :text  "${network} ${battery} ${volume}")))
+	)
+)

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+moon=$(curl -m 10 -s wttr.in/London?format=%m)
+
+if [ $? -ne 0 ]; then
+    moon="🌑"  # Setting default value to New Moon
+fi
+
+case "$moon" in
+  "🌑") echo "New Moon" ;;
+  "🌒") echo "Waxing Crescent" ;;
+  "🌓") echo "First Quarter" ;;
+  "🌔") echo "Waxing Gibbous" ;;
+  "🌕") echo "Full Moon" ;;
+  "🌖") echo "Waning Gibbous" ;;
+  "🌗") echo "Last Quarter" ;;
+  "🌘") echo "Waning Crescent" ;;
+  *) echo "New Moon" ;;
+esac

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+## Files and cmd
+FILE="$HOME/.cache/eww_launch.menu"
+CFG="$HOME/.config/eww/menu"
+
+ 
+if [[ ! -f "$FILE" ]]; then
+	touch "$FILE"
+	eww --config "$CFG" open menu
+ else
+ 	eww --config "$CFG" close menu
+ 	rm "$FILE"
+ fi
+

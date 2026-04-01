@@ -1,0 +1,44 @@
+#!/bin/bash
+
+wifiStatus=$(nmcli -t -f GENERAL.STATE device show wlp6s0 | awk '{print $2}')
+
+## Toggle state
+toggle() {
+  if [ $wifiStatus == "(connected)" ];then
+    nmcli radio wifi on
+  else
+    nmcli radio wifi off
+  fi
+}
+
+## Get Icon
+get_icon() {
+    if [ $wifiStatus == "(connected)" ];then
+      echo "󰖩 "
+    else
+      echo "󰖪 "
+    fi
+}
+
+## Get Status
+get_status() {  
+  while true; do
+    if [ $wifiStatus == "(connected)" ];then
+      echo "󰖩  Connected "
+     else 
+      echo "󰖪  Offline"
+    fi
+    sleep 5
+  done
+}
+
+
+
+if [ "$1" = "--toggle" ]; then
+  toggle
+elif [ "$1" = "--icon" ]; then
+  get_icon
+else #default
+  get_status
+fi
+   

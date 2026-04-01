@@ -1,0 +1,9 @@
+#!/bin/bash
+
+mem=$(free -h | awk 'NR==2 {print $3}')
+
+mem=${mem/Gi/}
+
+memPercent=$(echo "scale=0; (($mem * 100) / 16 + 0.5) / 1" | bc -l)
+
+echo $memPercent
