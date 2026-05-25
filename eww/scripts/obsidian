@@ -1,4 +1,4 @@
 #!/bin/bash
 
-obsidian
+kitty nvim -c "Obsidian today" /home/fergus/Documents/Personal/
 
